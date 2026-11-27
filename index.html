@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#070b1a" />
+  <title>A Little Universe Called Ahana</title>
+
+  <!-- Optional Telegram Mini App integration (safe no-op in regular browsers) -->
+  <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Animated Midnight Sky Background -->
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div class="ambient-glow ambient-glow-1" aria-hidden="true"></div>
+  <div class="ambient-glow ambient-glow-2" aria-hidden="true"></div>
+
+  <!-- Optional Background Instrumental Audio (Never Autoplays) -->
+  <audio id="bg-music" loop preload="none">
+    <source src="assets/ambient-stars.wav" type="audio/wav" />
+  </audio>
+
+  <!-- Top Controls & Subtle Progress Indicator -->
+  <header class="top-bar" id="top-bar">
+    <div class="top-bar-inner">
+      <div class="progress-wrap" aria-label="Universe exploration progress">
+        <div class="progress-dots" role="tablist" aria-label="Chapters">
+          <button type="button" class="progress-dot is-active" data-target="1" aria-label="Screen 1: Welcome" title="Welcome"></button>
+          <button type="button" class="progress-dot" data-target="2" aria-label="Screen 2: A Little Beginning" title="A Little Beginning"></button>
+          <button type="button" class="progress-dot" data-target="3" aria-label="Screen 3: Little Things About You" title="Little Things About You"></button>
+          <button type="button" class="progress-dot" data-target="4" aria-label="Screen 4: The 11:11 Wish" title="The 11:11 Wish"></button>
+          <button type="button" class="progress-dot" data-target="5" aria-label="Screen 5: A World Waiting For You" title="A World Waiting For You"></button>
+          <button type="button" class="progress-dot" data-target="6" aria-label="Screen 6: The Final Letter" title="The Final Letter"></button>
+        </div>
+        <span class="progress-label" id="progress-label">1 / 6</span>
+      </div>
+
+      <div class="top-actions">
+        <button
+          type="button"
+          class="icon-btn"
+          id="music-toggle"
+          aria-pressed="false"
+          aria-label="Play background music"
+          title="Toggle background music"
+        >
+          <span class="btn-icon" aria-hidden="true">♪</span>
+          <span class="btn-text" id="music-label">Music: Off</span>
+        </button>
+
+        <button
+          type="button"
+          class="icon-btn"
+          id="replay-btn"
+          aria-label="Replay from the beginning"
+          title="Replay from the beginning"
+          hidden
+        >
+          <span class="btn-icon" aria-hidden="true">↺</span>
+          <span class="btn-text">Replay</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Interactive Universe Container -->
+  <main class="universe-stage" id="universe-stage">
+    <!-- SCREEN 1: THE WELCOME -->
+    <section class="screen is-active" id="screen-1" data-screen="1" aria-labelledby="welcome-heading">
+      <div class="screen-content welcome-content">
+        <p class="eyebrow">A Little Universe</p>
+        <p class="poetic-line fade-seq" style="--delay: 0.15s">
+          Some people enter your life unexpectedly...<br />
+          and somehow make ordinary conversations memorable.
+        </p>
+        <p class="poetic-sub fade-seq" style="--delay: 0.55s">
+          Today, this little universe has one special name.
+        </p>
+        <h1 class="hero-name fade-seq" id="welcome-heading" style="--delay: 0.95s">
+          AHANA <span class="sparkle-inline" aria-hidden="true">✨</span>
+        </h1>
+        <div class="fade-seq" style="--delay: 1.3s">
+          <button type="button" class="primary-btn" id="enter-btn">
+            Enter your little universe
+            <span class="btn-arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 2: A LITTLE BEGINNING -->
+    <section class="screen" id="screen-2" data-screen="2" aria-labelledby="beginning-heading" hidden>
+      <div class="screen-content">
+        <span class="chapter-tag">Chapter I</span>
+        <h2 class="section-title" id="beginning-heading">Every friendship has a beginning.</h2>
+
+        <div class="story-card glass-card">
+          <p class="story-lead">
+            Once upon a time, two strangers met in the most unexpected way.
+          </p>
+          <p class="story-body">
+            One conversation turned into another.<br />
+            A stranger became a friend.<br />
+            And somewhere along the way, little moments became memories.
+          </p>
+        </div>
+
+        <p class="hint-text">Tap each floating memory to reveal a small echo</p>
+
+        <div class="timeline-bubbles" role="list">
+          <button type="button" class="memory-node glass-card" data-memory="0" aria-expanded="false">
+            <span class="node-header">
+              <span class="node-dot" aria-hidden="true"></span>
+              <span class="node-title">From Stranger to Friend</span>
+              <span class="node-cue">Tap</span>
+            </span>
+            <span class="node-detail">
+              <span class="chat-bubble">"Now friend 😝🙃"</span>
+              <span class="node-caption">Said right after calling me a stranger — the exact moment the story officially changed.</span>
+            </span>
+          </button>
+
+          <button type="button" class="memory-node glass-card" data-memory="1" aria-expanded="false">
+            <span class="node-header">
+              <span class="node-dot" aria-hidden="true"></span>
+              <span class="node-title">An Unexpected Nickname</span>
+              <span class="node-cue">Tap</span>
+            </span>
+            <span class="node-detail">
+              <span class="chat-bubble">"Are u babaji"</span>
+              <span class="node-caption">All because spirituality came up once — and somehow "Babaji" stayed forever.</span>
+            </span>
+          </button>
+
+          <button type="button" class="memory-node glass-card" data-memory="2" aria-expanded="false">
+            <span class="node-header">
+              <span class="node-dot" aria-hidden="true"></span>
+              <span class="node-title">Ordinary Days, Memorable Chats</span>
+              <span class="node-cue">Tap</span>
+            </span>
+            <span class="node-detail">
+              <span class="node-caption">Between random check-ins, music links, and goofy jokes, ordinary days turned into something worth remembering.</span>
+            </span>
+          </button>
+        </div>
+
+        <div class="nav-row">
+          <button type="button" class="ghost-btn" data-prev="1">← Back</button>
+          <button type="button" class="primary-btn" data-next="3">
+            Continue <span class="btn-arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 3: LITTLE THINGS ABOUT YOU -->
+    <section class="screen" id="screen-3" data-screen="3" aria-labelledby="about-heading" hidden>
+      <div class="screen-content wide-content">
+        <span class="chapter-tag">Chapter II</span>
+        <h2 class="section-title" id="about-heading">The little things that make you, YOU.</h2>
+        <p class="hint-text">Tap each constellation card to open it</p>
+
+        <div class="cards-grid">
+          <button type="button" class="trait-card glass-card" aria-expanded="false">
+            <span class="trait-top">
+              <span class="trait-icon" aria-hidden="true">🎵</span>
+              <span class="trait-label">01 · THE MUSIC CORNER</span>
+            </span>
+            <span class="trait-front">Voices that match every mood</span>
+            <span class="trait-reveal">
+              Your favourites include <strong>Arijit Singh</strong> and <strong>Shreya Ghoshal</strong> — timeless voices for late nights, quiet walks, and everything in between.
+            </span>
+            <span class="trait-action">Tap to open</span>
+          </button>
+
+          <button type="button" class="trait-card glass-card" aria-expanded="false">
+            <span class="trait-top">
+              <span class="trait-icon" aria-hidden="true">🌍</span>
+              <span class="trait-label">02 · THE DREAMER</span>
+            </span>
+            <span class="trait-front">Dream destination: "World"</span>
+            <span class="trait-reveal">
+              When asked about your dream destination, your answer was simply <em>"World"</em> — wanting to explore every corner, meet people from different places, and see how God created it all.
+            </span>
+            <span class="trait-action">Tap to open</span>
+          </button>
+
+          <button type="button" class="trait-card glass-card" aria-expanded="false">
+            <span class="trait-top">
+              <span class="trait-icon" aria-hidden="true">🪷</span>
+              <span class="trait-label">03 · THE BENGALI CORNER</span>
+            </span>
+            <span class="trait-front">Unmistakably proud of your roots</span>
+            <span class="trait-reveal">
+              A classic line straight from our chats:
+              <span class="quote-inline">"Ami banglay thaki to nischoi bangla janbo pagol."</span>
+            </span>
+            <span class="trait-action">Tap to open</span>
+          </button>
+
+          <button type="button" class="trait-card glass-card" aria-expanded="false">
+            <span class="trait-top">
+              <span class="trait-icon" aria-hidden="true">✨</span>
+              <span class="trait-label">04 · THE FUNNY SIDE</span>
+            </span>
+            <span class="trait-front">Unfiltered honesty &amp; warmth</span>
+            <span class="trait-reveal">
+              Your unforgettable way of describing how attached you are to your mom:
+              <span class="quote-inline">"Favicall ki tarah chipak jati jabtak mummy hata na de 😂"</span>
+            </span>
+            <span class="trait-action">Tap to open</span>
+          </button>
+        </div>
+
+        <div class="nav-row">
+          <button type="button" class="ghost-btn" data-prev="2">← Back</button>
+          <button type="button" class="primary-btn" data-next="4">
+            Next: 11:11 <span class="btn-arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 4: THE 11:11 WISH -->
+    <section class="screen" id="screen-4" data-screen="4" aria-labelledby="wish-heading" hidden>
+      <div class="screen-content wish-content">
+        <span class="chapter-tag">Chapter III</span>
+
+        <div class="clock-display" aria-label="Digital clock showing 11:11">
+          <span class="clock-digits">11:11</span>
+          <span class="clock-sub">Make-a-Wish Hour</span>
+        </div>
+
+        <h2 class="section-title" id="wish-heading">Remember 11:11?</h2>
+
+        <p class="story-body wish-context">
+          In one of our earliest conversations, we talked about how 11:11 is a time when people make wishes.
+        </p>
+
+        <p class="wish-prompt">
+          Close your eyes for a moment.<br />
+          Think of something your heart quietly wishes for.
+        </p>
+
+        <div class="wishing-star-stage" id="wishing-star-stage">
+          <div class="sparkle-burst" id="sparkle-burst" aria-hidden="true"></div>
+          <button
+            type="button"
+            class="wishing-star-btn"
+            id="wishing-star-btn"
+            aria-label="Click the glowing star to send your 11:11 wish"
+          >
+            <svg class="star-svg" viewBox="0 0 120 120" width="110" height="110" aria-hidden="true">
+              <defs>
+                <radialGradient id="starCore" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#fffbeb" />
+                  <stop offset="55%" stop-color="#fde68a" />
+                  <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.85" />
+                </radialGradient>
+              </defs>
+              <path
+                d="M60 8 L72 44 L108 56 L72 68 L60 104 L48 68 L12 56 L48 44 Z"
+                fill="url(#starCore)"
+              />
+            </svg>
+            <span class="star-tap-label" id="star-tap-label">Tap the star</span>
+          </button>
+        </div>
+
+        <div class="wish-message-box" id="wish-message-box" aria-live="polite">
+          <p class="wish-floating-msg" id="wish-floating-msg"></p>
+          <p class="wish-counter" id="wish-counter"></p>
+        </div>
+
+        <div class="nav-row">
+          <button type="button" class="ghost-btn" data-prev="3">← Back</button>
+          <button type="button" class="primary-btn" data-next="5">
+            Explore the World <span class="btn-arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 5: A WORLD WAITING FOR YOU -->
+    <section class="screen" id="screen-5" data-screen="5" aria-labelledby="world-heading" hidden>
+      <div class="screen-content wide-content">
+        <span class="chapter-tag">Chapter IV</span>
+        <h2 class="section-title" id="world-heading">
+          For someone whose dream destination is the WORLD...
+        </h2>
+        <p class="hint-text">Tap the glowing points across the map</p>
+
+        <div class="world-stage glass-card">
+          <div class="map-canvas-wrap">
+            <!-- Illustrative Stylized World Map SVG -->
+            <svg
+              class="world-svg"
+              viewBox="0 0 800 400"
+              role="img"
+              aria-label="Illustrated celestial world map with interactive glowing locations"
+            >
+              <defs>
+                <linearGradient id="continentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="rgba(167, 139, 250, 0.28)" />
+                  <stop offset="100%" stop-color="rgba(244, 182, 194, 0.2)" />
+                </linearGradient>
+                <linearGradient id="routeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="rgba(253, 230, 138, 0.2)" />
+                  <stop offset="50%" stop-color="rgba(253, 230, 138, 0.65)" />
+                  <stop offset="100%" stop-color="rgba(196, 181, 253, 0.25)" />
+                </linearGradient>
+              </defs>
+
+              <!-- Subtle Latitude / Longitude Grid -->
+              <g class="map-grid" stroke="rgba(255,255,255,0.06)" stroke-width="1" fill="none">
+                <ellipse cx="400" cy="200" rx="370" ry="175" />
+                <line x1="30" y1="200" x2="770" y2="200" stroke-dasharray="4 6" />
+                <line x1="400" y1="25" x2="400" y2="375" stroke-dasharray="4 6" />
+                <path d="M90 120 Q400 95 710 120" />
+                <path d="M90 280 Q400 305 710 280" />
+              </g>
+
+              <!-- Stylized Illustrative Continents -->
+              <g fill="url(#continentGrad)" stroke="rgba(196, 181, 253, 0.35)" stroke-width="1.2">
+                <!-- Americas -->
+                <path d="M135 88 C165 72, 225 76, 245 104 C258 122, 238 148, 214 162 C198 171, 206 188, 222 198 C252 215, 270 250, 250 288 C236 314, 214 334, 204 316 C192 292, 198 258, 184 228 C170 200, 146 182, 132 152 C118 124, 114 99, 135 88 Z" />
+                <!-- Europe & Africa -->
+                <path d="M362 84 C395 72, 438 78, 452 102 C462 120, 444 138, 424 146 C446 164, 466 196, 454 236 C442 276, 420 308, 402 296 C384 282, 382 244, 368 214 C354 188, 344 166, 354 140 C360 124, 342 92, 362 84 Z" />
+                <!-- Asia -->
+                <path d="M466 86 C524 68, 616 74, 668 106 C694 122, 682 158, 650 176 C622 192, 606 218, 578 220 C550 222, 536 198, 514 196 C488 194, 472 172, 464 148 C454 122, 442 94, 466 86 Z" />
+                <!-- Oceania -->
+                <path d="M610 248 C642 238, 678 250, 684 276 C690 298, 662 316, 632 308 C608 302, 590 256, 610 248 Z" />
+              </g>
+
+              <!-- Dotted Travel Arcs -->
+              <g fill="none" stroke="url(#routeGrad)" stroke-width="1.5" stroke-dasharray="5 6">
+                <path d="M192 142 Q295 85 404 122" />
+                <path d="M404 122 Q502 88 578 154" />
+                <path d="M578 154 Q635 205 648 276" />
+                <path d="M192 142 Q310 265 415 245" />
+              </g>
+            </svg>
+
+            <!-- Interactive Destination Pins -->
+            <button
+              type="button"
+              class="map-pin"
+              style="--pin-x: 24%; --pin-y: 35.5%;"
+              data-msg="New places."
+              data-place="Northern Horizons"
+              aria-label="Explore Northern Horizons"
+            >
+              <span class="pin-pulse" aria-hidden="true"></span>
+              <span class="pin-core" aria-hidden="true">✦</span>
+            </button>
+
+            <button
+              type="button"
+              class="map-pin"
+              style="--pin-x: 50.5%; --pin-y: 30.5%;"
+              data-msg="Unexpected adventures."
+              data-place="Old Cobblestone Skies"
+              aria-label="Explore Old Cobblestone Skies"
+            >
+              <span class="pin-pulse" aria-hidden="true"></span>
+              <span class="pin-core" aria-hidden="true">✦</span>
+            </button>
+
+            <button
+              type="button"
+              class="map-pin"
+              style="--pin-x: 72.5%; --pin-y: 38.5%;"
+              data-msg="Beautiful people."
+              data-place="Eastern Sunrise"
+              aria-label="Explore Eastern Sunrise"
+            >
+              <span class="pin-pulse" aria-hidden="true"></span>
+              <span class="pin-core" aria-hidden="true">✦</span>
+            </button>
+
+            <button
+              type="button"
+              class="map-pin"
+              style="--pin-x: 81%; --pin-y: 69%;"
+              data-msg="Stories waiting to happen."
+              data-place="Southern Shores"
+              aria-label="Explore Southern Shores"
+            >
+              <span class="pin-pulse" aria-hidden="true"></span>
+              <span class="pin-core" aria-hidden="true">✦</span>
+            </button>
+          </div>
+
+          <div class="map-readout" id="map-readout" aria-live="polite">
+            <span class="map-readout-tag" id="map-readout-tag">Choose a star on the map</span>
+            <p class="map-readout-msg" id="map-readout-msg">Every pin holds a wish for your travels.</p>
+          </div>
+        </div>
+
+        <p class="world-closing">
+          May you get to see all the beautiful corners of this world, one day at a time.
+        </p>
+
+        <div class="nav-row">
+          <button type="button" class="ghost-btn" data-prev="4">← Back</button>
+          <button type="button" class="primary-btn" data-next="6">
+            Read Final Letter <span class="btn-arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 6: THE FINAL LETTER -->
+    <section class="screen" id="screen-6" data-screen="6" aria-labelledby="letter-heading" hidden>
+      <div class="screen-content letter-wrap">
+        <span class="chapter-tag">Chapter V · For You</span>
+        <h2 class="sr-only" id="letter-heading">Birthday Letter for Ahana</h2>
+
+        <article class="letter-card glass-card">
+          <div class="letter-toolbar">
+            <span class="letter-stamp">✦ Birthday Note</span>
+            <button type="button" class="text-link-btn" id="skip-typing-btn">
+              Show full letter
+            </button>
+          </div>
+
+          <div class="letter-body" id="letter-body" aria-live="polite"></div>
+          <span class="typing-cursor" id="typing-cursor" aria-hidden="true">|</span>
+        </article>
+
+        <div class="letter-after" id="letter-after">
+          <p class="universe-closing">
+            Somewhere in this enormous universe, someone is wishing you a beautiful year ahead.
+          </p>
+
+          <div class="nav-row center-row">
+            <button type="button" class="ghost-btn" data-prev="5">← Back</button>
+            <button type="button" class="primary-btn" id="another-wish-btn">
+              Make another 11:11 wish ✨
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
